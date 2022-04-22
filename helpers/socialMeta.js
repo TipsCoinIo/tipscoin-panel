@@ -5,7 +5,7 @@ export default function (domain) {
     site_name: 'Bot TipsCoin.io',
     description:
       'Reward interesting posts and comments by sending tips to their authors using the Tips token. Official tip bot for https://TipsCoin.io.',
-    img: 'https://pbs.twimg.com/profile_images/1510869753505751045/5DnDYJ3g_400x400.png',
+    img: 'https://bot.tipscoin.io/img/ogimage.png',
     img_size: { width: '400', height: '400' },
     locale: 'en_US',
     twitter: '@tipscoinbot',

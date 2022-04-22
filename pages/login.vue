@@ -101,6 +101,8 @@
         </v-card-text>
       </v-card>
 
+      <ProjectButtons class="mt-3" />
+
       <v-expansion-panels v-model="activePanel" class="mt-5">
         <v-expansion-panel v-if="!isHelp">
           <v-expansion-panel-header>

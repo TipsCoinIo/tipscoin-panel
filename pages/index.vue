@@ -15,7 +15,9 @@
                   hide-details
                   :items="balance"
                   item-value="token"
-                  :item-text="(v) => $tips.formatTips(v.balance) + ' ' + v.name"
+                  :item-text="
+                    (v) => $tips.formatTipsLocale(v.balance) + ' ' + v.name
+                  "
                 />
               </v-col>
             </v-row>
@@ -87,9 +89,7 @@
                 </div>
               </v-form>
               <small>
-                We will never ask you for access to your BEP-20 wallet,
-                including your password, seed phrase or private key. We will
-                never ask you for access to your wallet, including your
+                We will never ask you for access to your wallet, including your
                 password, seed phrase or private key.</small
               >
             </div>
@@ -169,23 +169,25 @@
                 <tr>
                   <td>Estimated gas fee</td>
                   <td class="text-right text-no-wrap">
-                    {{ $tips.formatTips(withdraw.fee.data.gasCostEther) }} BNB /
+                    {{ $tips.formatTipsLocale(withdraw.fee.data.gasCostEther) }}
+                    BNB /
                     <strong>
-                      {{ $tips.formatTips(withdraw.fee.data.tipsCost) }} Tips
+                      {{ $tips.formatTipsLocale(withdraw.fee.data.tipsCost) }}
+                      Tips
                     </strong>
                   </td>
                 </tr>
                 <tr>
                   <td>Current balance</td>
                   <td class="text-right text-no-wrap">
-                    {{ $tips.formatTips($auth.user.balance) }} Tips
+                    {{ $tips.formatTipsLocale($auth.user.balance) }} Tips
                   </td>
                 </tr>
                 <tr>
                   <td>Balance after payout</td>
                   <td class="text-right text-no-wrap">
                     {{
-                      $tips.formatTips(
+                      $tips.formatTipsLocale(
                         $auth.user.balance -
                           withdraw.amount -
                           withdraw.fee.data.tipsCost
@@ -198,7 +200,7 @@
                   <td>The amount you will receive on your wallet</td>
                   <td class="text-right text-no-wrap">
                     {{
-                      $tips.formatTips(
+                      $tips.formatTipsLocale(
                         withdraw.amount - withdraw.fee.data.tipsCost
                       )
                     }}
@@ -380,7 +382,7 @@ export default {
         .then(async (res) => {
           await this.$auth.fetchUser()
           this.$store.commit('openSnackbar', {
-            text: 'Incoming Tips: ' + this.$tips.formatTips(res.amount),
+            text: 'Incoming Tips: ' + this.$tips.formatTipsLocale(res.amount),
           })
           this.depositDialog.show = false
         })

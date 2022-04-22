@@ -26,4 +26,8 @@ export default {
 .v-card__text {
   color: rgba(0, 0, 0, 0.8) !important;
 }
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
 </style>

@@ -111,7 +111,7 @@ export default {
     return params.hash.match(/^(\d+)\.[a-z0-9]{50}$/i) !== null
   },
   created() {
-    localStorage.setItem('ref-hash', this.$route.params.hash)
+    this.$auth.$storage.setUniversal('ref-hash', this.$route.params.hash)
   },
   data() {
     return {

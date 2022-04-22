@@ -25,6 +25,7 @@
           v-for="(item, i) in items"
           :key="i"
           :to="item.to"
+          @click="item.click"
           router
           exact
         >
@@ -67,13 +68,21 @@ export default {
         title: 'Statistics',
         to: {
           name: 'p-hash',
-          params: { hash: localStorage.getItem('ref-hash') },
+          params: { hash: this.$auth.$storage.getUniversal('ref-hash') },
         },
       },
       {
         icon: 'mdi-information-outline',
         title: 'Informations',
         to: { name: 'info' },
+      },
+      {
+        icon: 'mdi-logout',
+        title: 'Logout',
+        click: () => {
+          this.$auth.$storage.removeUniversal('ref-hash')
+          this.$router.push('/')
+        },
       },
     ]
   },

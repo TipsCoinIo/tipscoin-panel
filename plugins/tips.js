@@ -3,6 +3,7 @@ import commonRules from '@/helpers/commonRules'
 
 export default ({ app }, inject) => {
   inject('tips', {
+    _numberFormat: new Intl.NumberFormat(),
     moneyFormat(v) {
       const m = v.match(/([1-9]\d*)(?:[,.](\d{0,9}))?/)
       if (m) {
@@ -13,6 +14,9 @@ export default ({ app }, inject) => {
         return ret
       }
       return null
+    },
+    formatTipsLocale(v) {
+      return this._numberFormat.format(v)
     },
     formatTips(v) {
       return sprintf('%g', v)

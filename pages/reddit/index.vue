@@ -19,7 +19,10 @@
           <v-card-title>Reddit Bot</v-card-title>
           <v-card-text>
             <p>
-              Did you like a thread, post, graphic or comment on Reddit? Would you like to reward the author, or maybe you have too many Tips tokens and want to share your happiness with others? This module will allow you to quickly and easily send tips to users on Reddit.
+              Did you like a thread, post, graphic or comment on Reddit? Would
+              you like to reward the author, or maybe you have too many Tips
+              tokens and want to share your happiness with others? This module
+              will allow you to quickly and easily send tips to users on Reddit.
             </p>
           </v-card-text>
         </v-card>
@@ -39,7 +42,7 @@
           <v-form ref="form">
             <v-text-field
               v-model.trim="tipsSend.value"
-              label='Type a username or paste a link to a thread, comment, or profile'
+              label="Type a username or paste a link to a thread, comment, or profile"
               outlined
               flat
               :rules="[commonRules.notBlank({ name: 'Username or link' })]"
@@ -104,7 +107,7 @@
                 commonRules.gte({ name: 'Amount', value: 500 }),
                 commonRules.lte({
                   name: 'Amount',
-                  value: $tips.formatTips($auth.user.balance),
+                  value: $auth.user.balance,
                 }),
               ]"
             ></v-text-field>
@@ -148,7 +151,8 @@
             </p>
             <p>
               <Cmd>!deposit [YOUR-WALLET-ADDRESS]</Cmd>
-              verifies the balance after ordering a deposit from the previously added portfolio
+              verifies the balance after ordering a deposit from the previously
+              added portfolio
             </p>
             <p>
               <Cmd>!balance</Cmd>

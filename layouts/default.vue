@@ -20,6 +20,16 @@
         <NuxtLink class="banner" :to="{ name: 'index' }">
           <img src="/img/logo-white.svg" class="banner" alt="" />
         </NuxtLink>
+        <v-list>
+          <v-list-item :to="{ name: 'index' }" exact>
+            <v-list-item-action>
+              <v-img src="/img/tips.svg" width="24" height="24" />
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
         <v-divider />
         <v-list>
           <v-list-item link>
@@ -55,6 +65,17 @@
           </v-list-item>
         </v-list>
         <v-spacer />
+        <v-list dense>
+          <v-list-item :to="{ name: 'tac' }">
+            <v-list-item-icon>
+              <v-icon>mdi-help</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Terms and Conditions</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
         <v-divider />
         <v-list dense>
           <v-list-item
@@ -63,6 +84,7 @@
             :href="item.url"
             router
             exact
+            target="_blank"
           >
             <v-list-item-action class="ma-0 mr-3">
               <v-icon v-if="item.icon" small>{{ item.icon }}</v-icon>
@@ -156,17 +178,34 @@
           </div>
         </v-card>
       </v-menu>
-      <v-btn depressed large @click="rightDrawer = true">
-        <v-avatar size="36">
-          <img :src="userAvatar" :alt="userName" />
-        </v-avatar>
-        <div class="text-left">
-          {{ userName }}
-          <br />
-          <div style="font-size: 0.7em">
-            {{ $tips.formatTips($auth.user.balance) }} Tips
+
+      <v-btn depressed>
+        <div class="text-right">
+          <div class="text-no-wrap">{{ userName }}</div>
+          <div class="text-no-wrap accent--text" style="font-size: 0.8em">
+            {{ $tips.formatTipsLocale($auth.user.balance) }} Tips
           </div>
         </div>
+        <v-img
+          :src="userAvatar"
+          height="30"
+          aspect-ratio="1"
+          width="30"
+          contain
+          class="text-left"
+        />
+      </v-btn>
+
+      <v-btn
+        plain
+        x-small
+        @click="
+          $nuxt.$loading.start()
+          $router.push({ name: 'logout' })
+        "
+      >
+        <v-icon>mdi-logout</v-icon>
+        logout
       </v-btn>
     </v-app-bar>
     <v-main class="grey lighten-4">
@@ -175,58 +214,6 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" right temporary fixed>
-      <template #prepend>
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <img :src="userAvatar" />
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ userName }}</v-list-item-title>
-            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-
-      <template #append>
-        <div class="pa-2">
-          <v-btn
-            block
-            color="accent"
-            @click="
-              $nuxt.$loading.start()
-              $auth.logout().finally(() => $router.push('/login'))
-            "
-          >
-            Logout
-          </v-btn>
-        </div>
-      </template>
-
-      <v-divider></v-divider>
-
-      <v-list dense>
-        <v-list-item :to="{ name: 'index' }" exact>
-          <v-list-item-icon>
-            <v-icon>mdi-server</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item :to="{ name: 'tac' }">
-          <v-list-item-icon>
-            <v-icon>mdi-help</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Terms and Conditions</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
 
     <v-snackbar
       v-model="showSnackbar"
@@ -354,7 +341,7 @@ export default {
       },
     },
   },
-  created() {
+  mounted() {
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'openSnackbar') {
         this.showSnackbar = true

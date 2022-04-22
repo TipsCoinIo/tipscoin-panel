@@ -66,7 +66,7 @@
                     commonRules.gte({ name: 'Amount', value: 500 }),
                     commonRules.lte({
                       name: 'Amount',
-                      value: $tips.formatTips($auth.user.balance),
+                      value: $auth.user.balance,
                     }),
                   ]"
                 ></v-text-field>

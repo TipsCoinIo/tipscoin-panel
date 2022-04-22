@@ -42,8 +42,10 @@
               <strong>Success </strong> - this tip has already been claimed!
             </div>
             <div v-if="['sent', 'claimed', 'no_funds'].includes(trans.status)">
-              @{{ trans.sender }} sent {{ $tips.formatTips(trans.amount) }} Tips
-              via Twitter to @{{ trans.target }}.
+              @{{ trans.sender }} sent
+              {{ $tips.formatTipsLocale(trans.amount) }} Tips via Twitter to @{{
+                trans.target
+              }}.
             </div>
             <div v-if="trans.status === 'sent'">
               <small>

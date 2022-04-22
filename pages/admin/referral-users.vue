@@ -13,8 +13,10 @@
         <tr>
           <th>ID</th>
           <th>Username</th>
+          <th>Email</th>
           <th></th>
           <th>Manage levels</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +26,10 @@
           </td>
           <td>
             {{ user.username }}
+            <v-chip x-small>{{ user.accepted ? 'Active' : 'Inactive' }}</v-chip>
+            <v-chip v-if="user.banned" x-small>Banned</v-chip>
           </td>
+          <td>{{ user.email }}</td>
           <td>
             <v-btn
               :href="
@@ -45,6 +50,28 @@
               "
               ><v-icon>mdi-server</v-icon></v-btn
             >
+          </td>
+          <td>
+            <v-menu offset-y>
+              <template #activator="{ attrs, on }">
+                <v-btn icon v-bind="attrs" v-on="on"
+                  ><v-icon>mdi-menu</v-icon></v-btn
+                >
+              </template>
+
+              <v-list>
+                <v-list-item @click="toggleUserField(user, 'accepted')">
+                  <v-list-item-title>{{
+                    user.accepted ? 'Deactivate' : 'Activate'
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="toggleUserField(user, 'banned')">
+                  <v-list-item-title>{{
+                    user.banned ? 'Unban' : 'Ban'
+                  }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </td>
         </tr>
       </tbody>
@@ -85,6 +112,19 @@ export default {
     }
   },
   methods: {
+    toggleUserField(user, field) {
+      this.$nuxt.$loading.start()
+      this.$axios
+        .$post('api/admin/referral-users/' + user.id, {
+          [field]: !user[field],
+        })
+        .then(() => {
+          user[field] = !user[field]
+        })
+        .finally(() => {
+          this.$nuxt.$loading.finish()
+        })
+    },
     createUser() {
       this.$nuxt.$loading.start()
       this.$axios

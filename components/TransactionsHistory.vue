@@ -90,6 +90,31 @@
                   <v-icon color="green" small>mdi-plus-thick</v-icon>
                   First login
                 </v-chip>
+                <v-tooltip
+                  bottom
+                  v-else-if="transaction.type.indexOf('wallet_addr_') === 0"
+                >
+                  <template #activator="{ on, attrs }">
+                    <v-chip small outlined v-bind="attrs" v-on="on">
+                      <template v-if="transaction.type === 'wallet_addr_set'">
+                        <v-icon color="blue" small>mdi-swap-horizontal</v-icon>
+                        Change of withdrawal address
+                      </template>
+                      <template v-else>
+                        <v-icon color="red" small>mdi-delete-outline</v-icon>
+                        Removal of withdrawal address
+                      </template>
+                    </v-chip>
+                  </template>
+                  <div>
+                    <div v-if="transaction.data && transaction.data.old">
+                      OLD: {{ transaction.data.old }}
+                    </div>
+                    <div v-if="transaction.data && transaction.data.new">
+                      NEW: {{ transaction.data.new }}
+                    </div>
+                  </div>
+                </v-tooltip>
                 <v-chip v-else small outlined>{{ transaction.type }}</v-chip>
               </td>
               <td class="text-center text-no-wrap">
@@ -99,13 +124,13 @@
                     'red--text': parseFloat(transaction.value) < 0,
                   }"
                 >
-                  {{ $tips.formatTips(transaction.value) }} Tips
+                  {{ $tips.formatTipsLocale(transaction.value) }} Tips
                 </span>
               </td>
               <td>{{ transaction.provider }}</td>
               <td>{{ transaction.providerUser }}</td>
               <td class="text-right text-no-wrap text--secondary">
-                {{ $tips.formatTips(transaction.balanceAfter) }} Tips
+                {{ $tips.formatTipsLocale(transaction.balanceAfter) }} Tips
               </td>
               <td>
                 <v-btn
